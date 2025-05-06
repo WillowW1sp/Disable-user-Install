@@ -9,9 +9,9 @@ $form.StartPosition = "CenterScreen"
 
 # Button to Enable Policy (Prohibit user installs)
 $enableButton = New-Object System.Windows.Forms.Button
-$enableButton.Text = "Enable 'Prohibit User Installs'"
+$enableButton.Text = "Disable User Installs"
 $enableButton.Size = New-Object System.Drawing.Size(350,40)
-$enableButton.Location = New-Object System.Drawing.Point(20,30)
+$enableButton.Location = New-Object System.Drawing.Point(20,90)
 $enableButton.Add_Click({
     try {
         $regPath = "HKLM:\Software\Policies\Microsoft\Windows\Installer"
@@ -27,9 +27,9 @@ $enableButton.Add_Click({
 
 # Button to Disable Policy (Allow user installs)
 $disableButton = New-Object System.Windows.Forms.Button
-$disableButton.Text = "Disable 'Prohibit User Installs'"
+$disableButton.Text = "Enable User Installs"
 $disableButton.Size = New-Object System.Drawing.Size(350,40)
-$disableButton.Location = New-Object System.Drawing.Point(20,90)
+$disableButton.Location = New-Object System.Drawing.Point(20,30)
 $disableButton.Add_Click({
     try {
         $regPath = "HKLM:\Software\Policies\Microsoft\Windows\Installer"
