@@ -1,3 +1,25 @@
+# Check for Admin Privileges
+function Test-IsAdmin {
+    $currentIdentity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object System.Security.Principal.WindowsPrincipal($currentIdentity)
+    return $principal.IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
+# Relaunch script with elevation if not running as admin
+if (-not (Test-IsAdmin)) {
+    $scriptPath = $MyInvocation.MyCommand.Path
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-ExecutionPolicy Bypass -File `"$scriptPath`""
+    $psi.Verb = "runas"
+    try {
+        [System.Diagnostics.Process]::Start($psi) | Out-Null
+    } catch {
+        [System.Windows.Forms.MessageBox]::Show("Script must be run as administrator. Exiting.","Permission Required")
+    }
+    exit
+}
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName Microsoft.VisualBasic
 
