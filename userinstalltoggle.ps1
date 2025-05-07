@@ -36,12 +36,13 @@ $enableButton.Size = New-Object System.Drawing.Size(350,40)
 $enableButton.Location = New-Object System.Drawing.Point(20,90)
 $enableButton.Add_Click({
     try {
-        $regPath = "HKLM:\Software\Policies\Microsoft\Windows\Installer"
+        $regPath = "HKLM:\Software\Classes\Msi.Package\DefaultIcon"
         if (-not (Test-Path $regPath)) {
             New-Item -Path $regPath -Force | Out-Null
         }
-        Set-ItemProperty -Path $regPath -Name "EnableUserInstalls" -Value 0 -Type DWord
+        Set-ItemProperty -Path $regPath -Name "(Default)" -Value "C:\Windows\System32\msiexec.exe,1" -Type String
         [System.Windows.Forms.MessageBox]::Show("Policy Enabled: User installs are now hidden/prohibited.","Success")
+	[System.Windows.Forms.MessageBox]::Show("Please Reboot for changes to take effect","Reboot")
     } catch {
         [System.Windows.Forms.MessageBox]::Show("Failed to enable policy.`n$_","Error")
     }
@@ -54,12 +55,13 @@ $disableButton.Size = New-Object System.Drawing.Size(350,40)
 $disableButton.Location = New-Object System.Drawing.Point(20,30)
 $disableButton.Add_Click({
     try {
-        $regPath = "HKLM:\Software\Policies\Microsoft\Windows\Installer"
+        $regPath = "HKLM:\Software\Classes\Msi.Package\DefaultIcon"
         if (-not (Test-Path $regPath)) {
             New-Item -Path $regPath -Force | Out-Null
         }
-        Set-ItemProperty -Path $regPath -Name "EnableUserInstalls" -Value 1 -Type DWord
+        Set-ItemProperty -Path $regPath -Name "(Default)" -Value "C:\Windows\System32\msiexec.exe,0" -Type String
         [System.Windows.Forms.MessageBox]::Show("Policy Disabled: User installs are allowed.","Success")
+	[System.Windows.Forms.MessageBox]::Show("Please Reboot for changes to take effect","Reboot")
     } catch {
         [System.Windows.Forms.MessageBox]::Show("Failed to disable policy.`n$_","Error")
     }
