@@ -1,0 +1,1 @@
+userinstalltoggle.ps1 uses registry entries that are innaficient for blocking user installs, further testing needed for this option
